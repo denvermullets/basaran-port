@@ -1,1 +1,17 @@
 @import "tailwindcss";
+
+@theme {
+    --font-display: "Spectral", "serif";
+
+    --color-title: #221A12F6;
+    --color-maxContrastColor: #6D533BFF;
+    --color-focus: #B4A79AF9;
+    --color-foregroundPrimary: #CDB6A3FF;
+    --color-subtitle: #C3B8AEF7;
+    --color-hover: #E0DBD6F5;
+    --color-background: #F0EDEAF4;
+    --color-bg-simple-color: #F1EAE5FF;
+    --color-minContrastColor: #F3EDE8FF;
+    --color-backgroundExtra: #FDFDFDF2;
+    --color-text: #413780;
+}
