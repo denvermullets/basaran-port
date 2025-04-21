@@ -1,6 +1,5 @@
-# app/controllers/posts_controller.rb
 class PostsController < ApplicationController
-  before_action :set_post, only: [:show, :edit, :update, :destroy]
+  before_action :set_post, only: [ :show, :edit, :update, :destroy, :remove_image ]
 
   # GET /posts
   def index
@@ -25,7 +24,7 @@ class PostsController < ApplicationController
     @post = Post.new(post_params)
 
     if @post.save
-      redirect_to @post, notice: 'Post was successfully created.'
+      redirect_to @post, notice: "Post was successfully created."
     else
       render :new, status: :unprocessable_entity
     end
@@ -34,7 +33,7 @@ class PostsController < ApplicationController
   # PATCH/PUT /posts/1
   def update
     if @post.update(post_params)
-      redirect_to @post, notice: 'Post was successfully updated.'
+      redirect_to @post, notice: "Post was successfully updated."
     else
       render :edit, status: :unprocessable_entity
     end
@@ -43,7 +42,16 @@ class PostsController < ApplicationController
   # DELETE /posts/1
   def destroy
     @post.destroy
-    redirect_to posts_url, notice: 'Post was successfully destroyed.'
+    redirect_to posts_url, notice: "Post was successfully destroyed."
+  end
+
+  def remove_image
+    # binding.pry
+    image = @post.images.find(params[:image_id])
+    image.purge
+
+
+    redirect_to edit_post_path(@post), notice: "Image deleted."
   end
 
   private
@@ -54,6 +62,6 @@ class PostsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def post_params
-      params.require(:post).permit(:title, :description, :client, :release_year, :status, :private_post, :display_order)
+      params.require(:post).permit(:title, :description, :client, :release_year, :status, :private_post, :display_order, images: [])
     end
 end
