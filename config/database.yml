@@ -79,11 +79,11 @@ test:
 # for a full overview on how database connection configuration can be specified.
 #
 production:
-  primary: &primary_production
+  primary:
     <<: *default
-    database: basaran_port_production
-    username: basaran_port
-    password: <%= ENV["BASARAN_PORT_DATABASE_PASSWORD"] %>
+    url: <%= ENV['DATABASE_URL'] %>
+    # username: basaran_port
+    # password: <%= ENV["BASARAN_PORT_DATABASE_PASSWORD"] %>
   cache:
     <<: *primary_production
     database: basaran_port_production_cache
