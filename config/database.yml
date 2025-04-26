@@ -85,14 +85,13 @@ production:
     # username: basaran_port
     # password: <%= ENV["BASARAN_PORT_DATABASE_PASSWORD"] %>
   cache:
-    <<: *primary_production
-    database: basaran_port_production_cache
-    migrations_paths: db/cache_migrate
+    <<: *cache
+    url: <%= ENV['DATABASE_CACHE_URL'] %>
   queue:
-    <<: *primary_production
-    database: basaran_port_production_queue
+    <<: *queue
+    url: <%= ENV['DATABASE_QUEUE_URL'] %>
     migrations_paths: db/queue_migrate
-  cable:
-    <<: *primary_production
-    database: basaran_port_production_cable
-    migrations_paths: db/cable_migrate
+  # cable:
+  #   <<: *primary_production
+  #   database: basaran_port_production_cable
+  #   migrations_paths: db/cable_migrate
