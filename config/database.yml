@@ -10,9 +10,9 @@ default: &default
 # cache: &cache
 #   <<: *default
 #   migrations_paths: db/cache_migrate
-queue: &queue
-  <<: *default
-  migrations_paths: db/queue_migrate
+# queue: &queue
+#   <<: *default
+#   migrations_paths: db/queue_migrate
 
 development:
   primary:
@@ -21,9 +21,9 @@ development:
   # cache:
   #   <<: *cache
   #   database: myapp_development_cache
-  queue:
-    <<: *queue
-    database: basaran_port_queue
+  # queue:
+  #   <<: *queue
+  #   database: basaran_port_queue
 
 test:
   <<: *default
@@ -36,7 +36,7 @@ production:
   # cache:
   #   <<: *cache
   #   url: <%= ENV['DATABASE_URL']&.+('_cache') %>
-  queue:
-    <<: *queue
-    url: <%= ENV['DATABASE_QUEUE_URL'] %>
-    migrations_paths: db/queue_migrate
+  # queue:
+  #   <<: *queue
+  #   url: <%= ENV['DATABASE_QUEUE_URL'] %>
+  #   migrations_paths: db/queue_migrate
