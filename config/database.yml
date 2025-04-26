@@ -1,35 +1,29 @@
-# PostgreSQL. Versions 9.3 and up are supported.
-#
-# Install the pg driver:
-#   gem install pg
-# On macOS with Homebrew:
-#   gem install pg -- --with-pg-config=/usr/local/bin/pg_config
-# On Windows:
-#   gem install pg
-#       Choose the win32 build.
-#       Install PostgreSQL and put its /bin directory on your path.
-#
-# Configure Using Gemfile
-# gem "pg"
-#
+# setting up solidqueue to use a separate db as it is preferred in the docs
+# additionally configuring local dev to work this way as well, even though
+# it technically isn't needed. aiming to test mission control etc.
+
 default: &default
   adapter: postgresql
   encoding: unicode
-  # For details on connection pooling, see Rails configuration guide
-  # https://guides.rubyonrails.org/configuring.html#database-pooling
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
 
-cache: &cache
-  <<: *default
-  migrations_paths: db/cache_migrate
-
+# cache: &cache
+#   <<: *default
+#   migrations_paths: db/cache_migrate
 queue: &queue
   <<: *default
   migrations_paths: db/queue_migrate
 
 development:
-  <<: *default
-  database: basaran_port_development
+  primary:
+    <<: *default
+    database: basaran_port_development
+  # cache:
+  #   <<: *cache
+  #   database: myapp_development_cache
+  queue:
+    <<: *queue
+    database: basaran_port_queue
 
 test:
   <<: *default
@@ -39,16 +33,10 @@ production:
   primary:
     <<: *default
     url: <%= ENV['DATABASE_URL'] %>
-    # username: basaran_port
-    # password: <%= ENV["BASARAN_PORT_DATABASE_PASSWORD"] %>
-  cache:
-    <<: *cache
-    url: <%= ENV['DATABASE_CACHE_URL'] %>
+  # cache:
+  #   <<: *cache
+  #   url: <%= ENV['DATABASE_URL']&.+('_cache') %>
   queue:
     <<: *queue
     url: <%= ENV['DATABASE_QUEUE_URL'] %>
     migrations_paths: db/queue_migrate
-  # cable:
-  #   <<: *primary_production
-  #   database: basaran_port_production_cable
-  #   migrations_paths: db/cable_migrate
