@@ -30,18 +30,18 @@ test:
   database: basaran_port_test
 
 production:
-  primary:
+  primary: &primary_production
     <<: *default
     url: <%= ENV['DATABASE_URL'] %>
   # cache:
-  #   <<: *cache
-  #   url: <%= ENV['DATABASE_URL']&.+('_cache') %>
+  #   <<: *primary_production
+  #   database: my_app_name_production_cache
+  #   migrations_paths: db/cache_migrate
   # queue:
-  #   <<: *queue
-  #   url: <%= ENV['DATABASE_QUEUE_URL'] %>
+  #   <<: *primary_production
+  #   database: my_app_name_production_queue
   #   migrations_paths: db/queue_migrate
   cable:
     <<: *primary_production
-    # database: basaran_port_production_cable
     url: <%= ENV['DATABASE_CABLE_URL'] %>
     migrations_paths: db/cable_migrate
