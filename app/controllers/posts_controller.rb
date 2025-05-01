@@ -1,4 +1,5 @@
 class PostsController < ApplicationController
+  before_action :require_authentication, only: [:portfolio]
   before_action :set_post, only: %i[show edit update destroy remove_image]
 
   # GET /posts
@@ -57,6 +58,10 @@ class PostsController < ApplicationController
   end
 
   private
+
+  def require_authentication
+    redirect_to root_path, alert: 'Please enter the password' unless session[:authenticated]
+  end
 
   # Use callbacks to share common setup or constraints between actions.
   def set_post
