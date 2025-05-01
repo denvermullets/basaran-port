@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-  before_action :set_post, only: [ :show, :edit, :update, :destroy, :remove_image ]
+  before_action :set_post, only: %i[show edit update destroy remove_image]
 
   # GET /posts
   def index
@@ -7,8 +7,7 @@ class PostsController < ApplicationController
   end
 
   # GET /posts/1
-  def show
-  end
+  def show; end
 
   # GET /posts/new
   def new
@@ -16,24 +15,25 @@ class PostsController < ApplicationController
   end
 
   # GET /posts/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /posts
   def create
     @post = Post.new(post_params)
 
     if @post.save
-      redirect_to @post, notice: "Post was successfully created."
+      redirect_to @post, notice: 'Post was successfully created.'
     else
       render :new, status: :unprocessable_entity
     end
   end
 
-  # PATCH/PUT /posts/1
   def update
-    if @post.update(post_params)
-      redirect_to @post, notice: "Post was successfully updated."
+    new_images = params[:post][:images]
+
+    if @post.update(post_params.except(:images))
+      @post.images.attach(new_images) if new_images.present?
+      redirect_to @post, notice: 'Post was successfully updated.'
     else
       render :edit, status: :unprocessable_entity
     end
@@ -42,7 +42,7 @@ class PostsController < ApplicationController
   # DELETE /posts/1
   def destroy
     @post.destroy
-    redirect_to posts_url, notice: "Post was successfully destroyed."
+    redirect_to posts_url, notice: 'Post was successfully destroyed.'
   end
 
   def remove_image
@@ -50,18 +50,21 @@ class PostsController < ApplicationController
     image = @post.images.find(params[:image_id])
     image.purge
 
-
-    redirect_to edit_post_path(@post), notice: "Image deleted."
+    redirect_to edit_post_path(@post), notice: 'Image deleted.'
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_post
-      @post = Post.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def post_params
-      params.require(:post).permit(:title, :description, :client, :release_year, :status, :private_post, :display_order, images: [])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_post
+    @post = Post.find(params[:id])
+  end
+
+  def post_params
+    params.require(:post).permit(
+      :title, :description, :client, :release_year,
+      :status, :private_post, :display_order
+      # no images here!
+    )
+  end
 end
