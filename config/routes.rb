@@ -10,8 +10,11 @@ Rails.application.routes.draw do
   # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
   # Defines the root path route ("/")
-  root 'posts#index'
+  root 'posts#portfolio'
 
+  get 'portfolio(/:id)', to: 'posts#portfolio', as: :portfolio
+
+  get '/list-view', to: 'posts#index', as: :posts_table_view
   resources :posts do
     member do
       delete :remove_image

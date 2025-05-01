@@ -6,8 +6,10 @@ class PostsController < ApplicationController
     @posts = Post.all.order(display_order: :asc)
   end
 
-  # GET /posts/1
-  def show; end
+  def portfolio
+    @posts = Post.order(:display_order)
+    @post = params[:id].present? ? Post.find(params[:id].to_s.split('-').first) : nil
+  end
 
   # GET /posts/new
   def new
@@ -29,11 +31,13 @@ class PostsController < ApplicationController
   end
 
   def update
+    # images upload on submission only if new
+    # images delete from the form
     new_images = params[:post][:images]
 
     if @post.update(post_params.except(:images))
       @post.images.attach(new_images) if new_images.present?
-      redirect_to @post, notice: 'Post was successfully updated.'
+      redirect_to posts_table_view_path
     else
       render :edit, status: :unprocessable_entity
     end
@@ -46,7 +50,6 @@ class PostsController < ApplicationController
   end
 
   def remove_image
-    # binding.pry
     image = @post.images.find(params[:image_id])
     image.purge
 
@@ -64,7 +67,6 @@ class PostsController < ApplicationController
     params.require(:post).permit(
       :title, :description, :client, :release_year,
       :status, :private_post, :display_order
-      # no images here!
     )
   end
 end
