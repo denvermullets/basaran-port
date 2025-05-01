@@ -5,4 +5,8 @@ class Post < ApplicationRecord
   validates :client, presence: true
   validates :status, presence: true
   validates :display_order, numericality: { only_integer: true }
+
+  def to_param
+    "#{id}-#{title.parameterize}"
+  end
 end

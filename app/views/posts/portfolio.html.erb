@@ -1,0 +1,24 @@
+<div class="min-h-screen flex flex-col md:flex-row  text-text">
+  <!-- Sidebar Navigation -->
+  <nav class="w-full md:w-64 md:sticky md:top-0 md:h-screen border-r border-r-half-text p-4 flex md:flex-col justify-between">
+    <div class="space-y-2">
+      <% @posts.each do |post| %>
+        <%= link_to portfolio_path(post), class: "block text-left hover:bg-gray-300 rounded px-3 py-2 transition" do %>
+          <%= post.title %>
+        <% end %>
+      <% end %>
+      <%= link_to "Edit Posts", posts_table_view_path, class: "block text-left hover:bg-gray-300 rounded px-3 py-2 transition whitespace-normal break-words"  %>
+    </div>
+    <div class="hidden md:block text-sm mt-6">
+      &copy; <%= Date.today.year %> Melissa Basaran
+    </div>
+  </nav>
+  <!-- Post Content -->
+  <main class="flex-1 p-4 md:p-6 overflow-y-auto">
+    <% if @post %>
+      <%= render partial: "posts/post", locals: { post: @post } %>
+    <% else %>
+      <div class="text-gray-400 text-center mt-20">Select a project to view details.</div>
+    <% end %>
+  </main>
+</div>
