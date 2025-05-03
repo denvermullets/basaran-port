@@ -1,9 +1,11 @@
 <div class="space-y-6">
   <div>
-    <h1 class="text-3xl font-bold mb-2 italic"><%= post.title %></h1>
+    <h1 class="text-3xl font-bold italic"><%= post.title %></h1>
+    <% if post.sub_title.present? %>
+      <h3 class="text-lg mb-2 "><%= post.sub_title %></h3>
+    <% end %>
     <p class="text-sm"><strong>Client:</strong> <%= post.client %></p>
     <p class="text-sm"><strong>Year:</strong> <%= post.release_year %></p>
-    <p class="text-sm"><strong>Status:</strong> <%= post.status %></p>
     <% if post.private_post %>
       <span class="inline-block text-xs bg-red-500 text-white px-2 py-1 rounded">Private</span>
     <% end %>
