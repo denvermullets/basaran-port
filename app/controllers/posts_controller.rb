@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-  before_action :require_authentication, only: [:portfolio]
+  before_action :require_authentication
   before_action :set_post, only: %i[show edit update destroy remove_image]
 
   # GET /posts
@@ -8,8 +8,8 @@ class PostsController < ApplicationController
   end
 
   def portfolio
-    @posts = Post.order(:display_order)
-    @post = params[:id].present? ? Post.find(params[:id].to_s.split('-').first) : nil
+    @posts = Post.order(:display_order).where(private_post: false, status: 'published')
+    @post = params[:id].present? ? Post.find(params[:id].to_s.split('-').first) : @posts.first
   end
 
   # GET /posts/new
@@ -25,7 +25,7 @@ class PostsController < ApplicationController
     @post = Post.new(post_params)
 
     if @post.save
-      redirect_to @post, notice: 'Post was successfully created.'
+      redirect_to posts_table_view_path, notice: 'Post was successfully created.'
     else
       render :new, status: :unprocessable_entity
     end
