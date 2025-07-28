@@ -7,7 +7,7 @@ gem "bootsnap", require: false
 gem "dotenv"
 gem "image_processing", "~> 1.14.0"
 gem "importmap-rails"
-gem "pg", "~> 1.5.9"
+gem "pg", "~> 1.6.0"
 gem "propshaft"
 gem "pry"
 gem "puma", ">= 6.6.0"
