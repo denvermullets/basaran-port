@@ -1,16 +1,16 @@
 source "https://rubygems.org"
 
-gem "rails", "~> 8.0.2"
+gem "rails", "~> 8.0.2.1"
 
 gem "aws-sdk-s3", require: false
 gem "bootsnap", require: false
 gem "dotenv"
 gem "image_processing", "~> 1.14.0"
 gem "importmap-rails"
-gem "pg", "~> 1.5.9"
+gem "pg", "~> 1.6.2"
 gem "propshaft"
 gem "pry"
-gem "puma", ">= 6.6.0"
+gem "puma", ">= 7.0.3"
 # gem "solid_cache"
 # gem "solid_queue"
 # gem "solid_cable"
