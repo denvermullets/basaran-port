@@ -5,7 +5,7 @@ gem "rails", "~> 8.1.3"
 gem "aws-sdk-s3", require: false
 gem "bootsnap", require: false
 gem "dotenv"
-gem "image_processing", "~> 1.14.0"
+gem "image_processing", "~> 2.0.1"
 gem "importmap-rails"
 gem "pg", "~> 1.6.2"
 gem "propshaft"
